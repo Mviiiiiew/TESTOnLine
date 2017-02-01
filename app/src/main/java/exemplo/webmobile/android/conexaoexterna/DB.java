@@ -1,8 +1,12 @@
 package exemplo.webmobile.android.conexaoexterna;
 
+import android.util.Log;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 
 /**
  * Created by evandro on 16/03/2015.
@@ -19,21 +23,22 @@ public class DB extends _Default implements Runnable {
 
     public DB() {
         super();
-        this.url = String.format(this.url,this.host, this.port, this.db);
-
-        this.conecta();
-        this.disconecta();
+        this.url = String.format(url,host, port, db);
+        conecta();
+        disconecta();
     }
 
     @Override
     public void run() {
         try{
             Class.forName("org.postgresql.Driver");
-            this.conn = DriverManager.getConnection(this.url,this.user,this.pass);
+            conn = DriverManager.getConnection(url,user,pass);
+
+
 
         }catch (Exception e){
-            this._mensagem = e.getMessage();
-            this._status = false;
+            _mensagem = e.getMessage();
+            _status = false;
         }
     }
 
@@ -43,43 +48,44 @@ public class DB extends _Default implements Runnable {
         try{
             thread.join();
         }catch (Exception e){
-            this._mensagem = e.getMessage();
-            this._status = false;
+            _mensagem = e.getMessage();
+            _status = false;
         }
     }
 
     private void disconecta(){
-        if (this.conn!= null){
+        if (conn!= null){
             try{
-                this.conn.close();
+                conn.close();
             }catch (Exception e){
 
             }finally {
-                this.conn = null;
+                conn = null;
             }
         }
     }
 
     public ResultSet select(String query){
-        this.conecta();
+        conecta();
         ResultSet resultSet = null;
         try {
             resultSet = new ExecuteDB(this.conn, query).execute().get();
         }catch (Exception e){
-            this._status = false;
-            this._mensagem = e.getMessage();
+            _status = false;
+            _mensagem = e.getMessage();
         }
         return resultSet;
     }
 
     public ResultSet execute(String query){
-        this.conecta();
+        conecta();
         ResultSet resultSet = null;
         try {
-            resultSet = new ExecuteDB(this.conn, query).execute().get();
+
+            resultSet = new ExecuteDB(conn, query).execute().get();
         }catch (Exception e){
-            this._status = false;
-            this._mensagem = e.getMessage();
+            _status = false;
+            _mensagem = e.getMessage();
         }
         return resultSet;
     }

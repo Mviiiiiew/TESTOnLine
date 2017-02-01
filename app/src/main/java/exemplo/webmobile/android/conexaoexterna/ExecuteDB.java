@@ -1,5 +1,7 @@
 package exemplo.webmobile.android.conexaoexterna;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 
 import java.sql.Connection;
@@ -10,13 +12,20 @@ import java.sql.ResultSet;
  */
 public class ExecuteDB extends AsyncTask<String, Void, ResultSet> {
 
+
     private Connection connection;
     private String query;
+
+
 
     public ExecuteDB(Connection connection, String query) {
         this.connection = connection;
         this.query = query;
     }
+
+
+
+
 
     @Override
     protected ResultSet doInBackground(String... params) {

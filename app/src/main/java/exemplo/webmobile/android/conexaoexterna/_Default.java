@@ -8,8 +8,8 @@ public class _Default {
     protected boolean _status;
 
     public _Default(){
-        this._status = true;
-        this._mensagem = "";
+        _status = true;
+        _mensagem = "OK";
     }
 
     public String get_mensagem() {
