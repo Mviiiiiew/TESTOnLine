@@ -24,7 +24,7 @@ public class Usuario extends _Default {
         this.telefone = "";
     }
 
-    public ArrayList<Usuario> getLista() {
+    /*public ArrayList<Usuario> getLista() {
         DB db = new DB();
         ArrayList<Usuario> lista = new ArrayList<>();
         try {
@@ -45,7 +45,7 @@ public class Usuario extends _Default {
             this._status = false;
         }
         return lista;
-    }
+    }*/
 
     public ProductSaleList SearchID(String ID) {
         ProductSaleList productSaleList = new ProductSaleList();

@@ -63,10 +63,14 @@ public class NovoActivity extends ActionBarActivity {
 
 
     public void salvar(View view) {
-        usuario.setNome(editTextNome.getText().toString());
-        usuario.setEmail(editTextEmail.getText().toString());
-        usuario.setTelefone(editTextTelefone.getText().toString());
-        usuario.salvar();
+        ProductDAO productDAO = new ProductDAO();
+        ProductSaleList productSaleList = new ProductSaleList();
+        productSaleList.setNome(editTextNome.getText().toString());
+        productSaleList.setEmail(editTextEmail.getText().toString());
+        productSaleList.setTelefone(editTextTelefone.getText().toString());
+
+        productDAO.salvar(productSaleList);
+        Log.d("NAME",productSaleList.getNome()+"");
 
         Toast.makeText(this, this.usuario.get_mensagem(), Toast.LENGTH_LONG).show();
         if (usuario.is_status())
