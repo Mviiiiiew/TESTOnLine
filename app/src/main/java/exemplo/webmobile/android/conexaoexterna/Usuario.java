@@ -16,7 +16,7 @@ public class Usuario extends _Default {
     private String telefone;
 
 
-    public Usuario(){
+    public Usuario() {
         super();
         this.id = -1;
         this.email = "";
@@ -24,13 +24,13 @@ public class Usuario extends _Default {
         this.telefone = "";
     }
 
-    public ArrayList<Usuario> getLista(){
+    public ArrayList<Usuario> getLista() {
         DB db = new DB();
         ArrayList<Usuario> lista = new ArrayList<>();
         try {
             ResultSet resultSet = db.select("SELECT * FROM usuario");
-            if (resultSet != null){
-                while (resultSet.next()){
+            if (resultSet != null) {
+                while (resultSet.next()) {
                     Usuario obj = new Usuario();
                     obj.setId(resultSet.getInt("id"));
                     obj.setNome(resultSet.getString("nome"));
@@ -40,23 +40,46 @@ public class Usuario extends _Default {
                     obj = null;
                 }
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             this._mensagem = ex.getMessage();
             this._status = false;
         }
         return lista;
     }
 
+    public ProductSaleList SearchID(String ID) {
+        ProductSaleList productSaleList = new ProductSaleList();
+        DB db = new DB();
+        try {
+            ResultSet resultSet = db.select("SELECT * FROM usuario where id ='" + ID + "' ");
+            if (resultSet != null) {
+                while (resultSet.next ()) {
+
+                    productSaleList.setId(resultSet.getInt("id"));
+                    productSaleList.setNome(resultSet.getString("nome"));
+                    productSaleList.setEmail(resultSet.getString("email"));
+                    productSaleList.setTelefone(resultSet.getString("telefone"));
+                    resultSet.next();
+                }
+            }
+        } catch (Exception ex) {
+            this._mensagem = ex.getMessage();
+            this._status = false;
+        }
 
 
-    public void salvar(){
+        return productSaleList;
+    }
+
+
+    public void salvar() {
         String comando = "";
-        if (getId() == -1){
+        if (getId() == -1) {
             comando = String.format("INSERT INTO usuario (nome, email, telefone) VALUES ('%s','%s','%s');",
-                    getNome(),getEmail(),getTelefone());
-        }else{
+                    getNome(), getEmail(), getTelefone());
+        } else {
             comando = String.format("UPDATE usuario SET nome = '%s', email = '%s', telefone = '%s' WHERE id = %d;",
-                    getNome(),getEmail(),getTelefone(),getId());
+                    getNome(), getEmail(), getTelefone(), getId());
         }
         DB db = new DB();
         db.execute(comando);
@@ -64,8 +87,8 @@ public class Usuario extends _Default {
         this._status = db._status;
     }
 
-    public void apagar(){
-        String comando = String.format("DELETE FROM usuario WHERE id = %d;",this.getId());
+    public void apagar() {
+        String comando = String.format("DELETE FROM usuario WHERE id = %d;", this.getId());
         DB db = new DB();
         db.execute(comando);
         this._mensagem = db._mensagem;
